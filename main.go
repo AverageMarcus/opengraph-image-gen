@@ -14,7 +14,6 @@ import (
 	"github.com/patrickmn/go-cache"
 
 	"github.com/gofiber/fiber/v2"
-	fiberCache "github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -26,7 +25,6 @@ var content embed.FS
 
 func main() {
 	app := fiber.New()
-	app.Use(fiberCache.New())
 	app.Use(compress.New())
 	app.Use(cors.New())
 	app.Use(logger.New())

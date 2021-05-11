@@ -42,15 +42,19 @@
           font-family: 'Roboto Bold';
           margin: 0;
           position: fixed;
-          top: 80px;
+          top: 100px;
           left: 50px;
           height: 300px;
           width: 800px;
-          font-size: 70px;
+          font-size: 80px;
           font-weight: 900;
-          line-height: 70px;
+          line-height: 75px;
           overflow: hidden;
           text-overflow: ellipsis;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          white-space: normal;
         }
         h2 {
           font-family: 'Roboto Medium';
@@ -58,6 +62,7 @@
           position: fixed;
           top: 50px;
           left: 50px;
+          font-size: 40px;
           font-weight: 900;
         }
         #profilePic {
@@ -70,11 +75,11 @@
         .tags {
           position: fixed;
           left: 50px;
-          top: 400px;
+          top: 420px;
           width: 800px;
           height: 25px;
           line-height: 25px;
-          font-size: 15px;
+          font-size: 25px;
           font-weight: 200;
           display: flex;
           flex-direction: row;
@@ -90,7 +95,7 @@
           bottom: 25px;
           height: 25px;
           line-height: 25px;
-          font-size: 15px;
+          font-size: 20px;
           font-weight: 200;
           display: flex;
           flex-direction: row;
@@ -99,7 +104,7 @@
           fill: var(--foreground-color);
         }
         .social span {
-          margin: 0 3px;
+          margin: 0 5px;
         }
         .social svg:not(:first-of-type) {
           margin-left: 20px;
