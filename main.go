@@ -91,7 +91,7 @@ func generateImage(vars map[string]string) ([]byte, error) {
 
 	imageFile, err := os.CreateTemp(os.TempDir(), "img-*.png")
 
-	chrome := svg2png.NewChrome().SetHeight(600).SetWith(1200)
+	chrome := svg2png.NewChrome().SetHeight(600).SetWith(1200).SetTimeout(10 * time.Second)
 	if err := chrome.Screenshoot(fmt.Sprintf("file://%s", file.Name()), imageFile.Name()); err != nil {
 		return nil, err
 	}
