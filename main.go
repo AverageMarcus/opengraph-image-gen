@@ -11,8 +11,13 @@ import (
 	"time"
 
 	"github.com/canhlinh/svg2png"
-	"github.com/gofiber/fiber/v2"
 	"github.com/patrickmn/go-cache"
+
+	"github.com/gofiber/fiber/v2"
+	fiberCache "github.com/gofiber/fiber/v2/middleware/cache"
+	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 //go:embed index.html svg.tmpl
@@ -21,7 +26,12 @@ var content embed.FS
 
 func main() {
 	app := fiber.New()
-	ch := cache.New(5*24*time.Hour, 7*24*time.Hour)
+	app.Use(fiberCache.New())
+	app.Use(compress.New())
+	app.Use(cors.New())
+	app.Use(logger.New())
+
+	ch := cache.New(6*time.Hour, 24*time.Hour)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		c.Type("html", "UTF8")
@@ -45,13 +55,14 @@ func main() {
 		key := generateKey(vars)
 
 		png, found := ch.Get(key)
-		if !found {
+		if !found || len(png.([]byte)) == 0 {
 			var err error
 			png, err = generateImage(vars)
 			if err != nil {
-				return err
+				fmt.Println(err)
+				return c.SendStatus(500)
 			}
-			ch.Set(key, png, -1)
+			ch.Set(key, png, 0)
 		}
 
 		c.Type("png")
