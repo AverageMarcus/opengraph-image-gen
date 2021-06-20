@@ -27,13 +27,12 @@ var chrome *svg2png.Chrome
 
 func main() {
 	chrome = svg2png.NewChrome().SetHeight(600).SetWith(1200).SetTimeout(10 * time.Second)
+	ch := cache.New(24*time.Hour, 48*time.Hour)
 
 	app := fiber.New()
 	app.Use(compress.New())
 	app.Use(cors.New())
 	app.Use(logger.New())
-
-	ch := cache.New(6*time.Hour, 24*time.Hour)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		c.Type("html", "UTF8")
@@ -64,7 +63,7 @@ func main() {
 				fmt.Println(err)
 				return c.SendStatus(500)
 			}
-			ch.Set(key, png, 0)
+			ch.Set(key, png, cache.DefaultExpiration)
 		}
 
 		c.Type("png")
