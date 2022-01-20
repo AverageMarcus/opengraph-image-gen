@@ -42,15 +42,15 @@ func main() {
 
 	app.Get("/opengraph", func(c *fiber.Ctx) error {
 		vars := map[string]string{
-			"siteTitle": c.Query("siteTitle", ""),
-			"title":     c.Query("title", ""),
-			"tags":      c.Query("tags", ""),
-			"image":     c.Query("image", ""),
-			"twitter":   c.Query("twitter", ""),
-			"github":    c.Query("github", ""),
-			"website":   c.Query("website", ""),
-			"bgColor":   c.Query("bgColor", c.Query("bgColour", "#fff")),
-			"fgColor":   c.Query("fgColor", c.Query("fgColour", "#2B414D")),
+			"siteTitle": ensureDecoded(c.Query("siteTitle", "")),
+			"title":     ensureDecoded(c.Query("title", "")),
+			"tags":      ensureDecoded(c.Query("tags", "")),
+			"image":     ensureDecoded(c.Query("image", "")),
+			"twitter":   ensureDecoded(c.Query("twitter", "")),
+			"github":    ensureDecoded(c.Query("github", "")),
+			"website":   ensureDecoded(c.Query("website", "")),
+			"bgColor":   ensureDecoded(c.Query("bgColor", c.Query("bgColour", "#fff"))),
+			"fgColor":   ensureDecoded(c.Query("fgColor", c.Query("fgColour", "#2B414D"))),
 		}
 
 		key := generateKey(vars)
@@ -100,4 +100,13 @@ func generateImage(vars map[string]string) ([]byte, error) {
 	defer os.Remove(imageFile.Name())
 
 	return os.ReadFile(imageFile.Name())
+}
+
+// Some sites (LinkedIn) encode the already encoded URL so we need to double-decode to be sure
+func ensureDecoded(str string) string {
+	decoded, err := url.QueryUnescape(str)
+	if err != nil {
+		return str
+	}
+	return decoded	
 }
