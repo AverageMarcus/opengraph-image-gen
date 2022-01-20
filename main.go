@@ -9,6 +9,7 @@ import (
 	"strings"
 	"text/template"
 	"time"
+	"net/url"
 
 	"github.com/canhlinh/svg2png"
 	"github.com/patrickmn/go-cache"
