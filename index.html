@@ -60,7 +60,8 @@
           <label>Heading: <input id="title" type="text" value="Heading" /></label>
           <label>Tags: <input id="tags" type="text" value="example,sample,foo,bar" /></label>
           <label>Image: <input id="image" type="text" value="https://marcusnoble.co.uk/images/marcus.jpg" /></label>
-          <label>Twitter Handle: <input id="twitter" type="text" value="Marcus_Noble_" /></label>
+          <label>Bluesky Handle: <input id="bluesky" type="text" value="@averagemarcus.bsky.social" /></label>
+          <label>Fediverse Handle: <input id="fediverse" type="text" value="@marcus@k8s.social" /></label>
           <label>GitHub Username: <input id="github" type="text" value="AverageMarcus" /></label>
           <label>Website: <input id="website" type="text" value="www.MarcusNoble.co.uk" /></label>
           <br />
@@ -77,7 +78,7 @@
 
         <label>
           URL:
-          <input type="text" id="imageURL" readonly />
+          <input type="text" id="imageURL" />
         </label>
       </form>
     </div>
@@ -120,13 +121,14 @@
       let title = encodeURIComponent(document.getElementById('title').value);
       let tags = encodeURIComponent(document.getElementById('tags').value);
       let image = encodeURIComponent(document.getElementById('image').value);
-      let twitter = encodeURIComponent(document.getElementById('twitter').value);
+      let bluesky = encodeURIComponent(document.getElementById('bluesky').value);
+      let fediverse = encodeURIComponent(document.getElementById('fediverse').value);
       let github = encodeURIComponent(document.getElementById('github').value);
       let website = encodeURIComponent(document.getElementById('website').value);
       let bgColor = encodeURIComponent(document.getElementById('bgColor').value);
       let fgColor = encodeURIComponent(document.getElementById('fgColor').value);
 
-      let url = `/opengraph/?siteTitle=${siteTitle}&title=${title}&tags=${tags}&image=${image}&twitter=${twitter}&github=${github}&website=${website}&bgColor=${bgColor}&fgColor=${fgColor}`;
+      let url = `/opengraph/?siteTitle=${siteTitle}&title=${title}&tags=${tags}&image=${image}&bluesky=${bluesky}&fediverse=${fediverse}&github=${github}&website=${website}&bgColor=${bgColor}&fgColor=${fgColor}`;
       document.getElementById('exampleImage').src = url;
       document.getElementById('imageURL').value = `https://opengraph.cluster.fun${url}`;
     }

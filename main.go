@@ -5,11 +5,11 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"os"
 	"strings"
 	"text/template"
 	"time"
-	"net/url"
 
 	"github.com/canhlinh/svg2png"
 	"github.com/patrickmn/go-cache"
@@ -47,8 +47,10 @@ func main() {
 			"title":     ensureDecoded(c.Query("title", "")),
 			"tags":      ensureDecoded(c.Query("tags", "")),
 			"image":     ensureDecoded(c.Query("image", "")),
-			"twitter":   ensureDecoded(c.Query("twitter", "")),
-			"github":    ensureDecoded(c.Query("github", "")),
+			"twitter":   stripAt(ensureDecoded(c.Query("twitter", ""))),
+			"bluesky":   stripAt(ensureDecoded(c.Query("bluesky", ""))),
+			"fediverse": stripAt(ensureDecoded(c.Query("fediverse", ""))),
+			"github":    stripAt(ensureDecoded(c.Query("github", ""))),
 			"website":   ensureDecoded(c.Query("website", "")),
 			"bgColor":   ensureDecoded(c.Query("bgColor", c.Query("bgColour", "#fff"))),
 			"fgColor":   ensureDecoded(c.Query("fgColor", c.Query("fgColour", "#2B414D"))),
@@ -109,5 +111,9 @@ func ensureDecoded(str string) string {
 	if err != nil {
 		return str
 	}
-	return decoded	
+	return decoded
+}
+
+func stripAt(str string) string {
+	return strings.TrimPrefix(str, "@")
 }
